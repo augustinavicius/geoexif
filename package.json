@@ -4,7 +4,8 @@
   "description": "Fast photo EXIF geolocation viewer.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "electron .",
+    "build": "electron-builder"
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,12 @@
   },
   "dependencies": {
     "electron-updater": "^5.0.1"
+  },
+  "build": {
+    "win": {
+      "publish": [
+        "github"
+      ]
+    }
   }
 }
