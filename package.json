@@ -2,7 +2,7 @@
   "name": "geoexif",
   "version": "0.0.1",
   "description": "Fast photo EXIF geolocation viewer.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,5 +11,12 @@
     "url": "https://github.com/augustinavicius/geoexif"
   },
   "author": "Ignas Augustinavičius",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "electron": "^19.0.3",
+    "electron-builder": "^23.0.3"
+  },
+  "dependencies": {
+    "electron-updater": "^5.0.1"
+  }
 }
