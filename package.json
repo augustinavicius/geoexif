@@ -22,6 +22,8 @@
     "electron-updater": "^5.0.1"
   },
   "build": {
+    "productName": "GeoEXIF",
+    "compression": "maximum",
     "win": {
       "publish": [
         "github"
