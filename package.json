@@ -1,6 +1,6 @@
 {
   "name": "geoexif",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Fast photo EXIF geolocation viewer.",
   "main": "app.js",
   "scripts": {
