@@ -1,6 +1,6 @@
 // Libraries
 // Electron
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow } = require('electron');
 // Electron Updater
 const { autoUpdater } = require('electron-updater');
 

@@ -1,12 +1,13 @@
 {
   "name": "geoexif",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Fast photo EXIF geolocation viewer.",
   "main": "app.js",
   "scripts": {
     "dev": "electron .",
     "build": "electron-builder build --win --publish never",
-    "deploy": "electron-builder build --win --publish always"
+    "deploy": "electron-builder build --win --publish always",
+    "sass-build": "node-sass --omit-source-map-url styledefs.scss src/styles/bulma.css"
   },
   "repository": {
     "type": "git",
@@ -15,8 +16,10 @@
   "author": "Ignas Augustinavičius",
   "license": "UNLICENSED",
   "devDependencies": {
+    "bulma": "^0.9.4",
     "electron": "^19.0.3",
-    "electron-builder": "^23.0.3"
+    "electron-builder": "^23.0.3",
+    "node-sass": "^7.0.1"
   },
   "dependencies": {
     "electron-updater": "^5.0.1"
