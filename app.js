@@ -3,9 +3,16 @@
 const { app, BrowserWindow } = require('electron');
 // Electron Updater
 const { autoUpdater } = require('electron-updater');
+// Electron Custom Titlebar
+const { setupTitlebar, attachTitlebarToWindow } = require('custom-electron-titlebar/main');
+// Path
+const path = require("path");
 
 // Main Window
 let mainWindow;
+
+// Title Bar
+setupTitlebar();
 
 // App Ready
 app.on('ready', () => {
@@ -41,14 +48,18 @@ const createWindow = () => {
         height: 600,
         minWidth: 800,
         minHeight: 600,
+        frame: false,
         title: `GeoEXIF ${app.getVersion()}`,
+        icon: __dirname + '/src/images/icon.ico',
         show: false,
         webPreferences: {
             nodeIntegration: true,
-            contextIsolation: false
+            contextIsolation: false,
+            preload: path.join(__dirname, 'preload.js')
         }
     });
     mainWindow.loadFile('./src/index.html');
+    attachTitlebarToWindow(mainWindow);
 }
 
 // App Update Events
