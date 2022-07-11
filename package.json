@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "electron .",
     "build": "electron-builder build --win --publish never",
+    "test": "electron-builder build --dir --win --publish never",
     "deploy": "electron-builder build --win --publish always",
     "sass-build": "node-sass --omit-source-map-url styledefs.scss src/styles/bulma.css"
   },

@@ -1,6 +1,6 @@
 // Libraries
 // Electron
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 // Electron Updater
 const { autoUpdater } = require('electron-updater');
 // Electron Custom Titlebar
@@ -26,6 +26,8 @@ app.on('ready', () => {
 
         // Check For Updates
         autoUpdater.checkForUpdatesAndNotify();
+
+        sendStatusToWindow('hello!');
     });
 });
 
@@ -49,7 +51,6 @@ const createWindow = () => {
         minWidth: 800,
         minHeight: 600,
         frame: false,
-        title: `GeoEXIF ${app.getVersion()}`,
         icon: __dirname + '/src/images/icon.ico',
         show: false,
         webPreferences: {
@@ -58,13 +59,31 @@ const createWindow = () => {
             preload: path.join(__dirname, 'preload.js')
         }
     });
+
+    // Menu
+    const menuTemplate = [
+        {
+            label: 'Test',
+            submenu: [
+                { label: 'Test', role: 'test' }
+            ]
+        }
+    ];
+
+    // Attach HTML File
     mainWindow.loadFile('./src/index.html');
+
+    // Custom Menu
+    const menu = Menu.buildFromTemplate(menuTemplate);
+    Menu.setApplicationMenu(menu);
+
+    // Custom Titlebar
     attachTitlebarToWindow(mainWindow);
 }
 
 // App Update Events
 autoUpdater.on('checking-for-update', () => {
-    sendStatusToWindow('Checking for update...');
+    sendStatusToWindow('Checking for an update...');
 })
 autoUpdater.on('update-available', (info) => {
     sendStatusToWindow('Update found.');
