@@ -1,8 +1,8 @@
 # Node Modules
 node_modules/
 
-# Distribution Folder
-dist/
+# Release Folder
+release/
 
 # Environmental Variables
 .env

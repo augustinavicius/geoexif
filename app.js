@@ -26,8 +26,6 @@ app.on('ready', () => {
 
         // Check For Updates
         autoUpdater.checkForUpdatesAndNotify();
-
-        sendStatusToWindow('hello!');
     });
 });
 
@@ -39,7 +37,7 @@ app.on('window-all-closed', () => {
 
 // Send Update Status to Renderer
 function sendStatusToWindow(text) {
-    mainWindow.webContents.send('message', text);
+    mainWindow.webContents.send('updatestatus', text);
 }
 
 // Create Window Function
@@ -63,10 +61,14 @@ const createWindow = () => {
     // Menu
     const menuTemplate = [
         {
-            label: 'Test',
+            label: 'File',
             submenu: [
-                { label: 'Test', role: 'test' }
+                { label: 'Import', submenu: [ { label: 'Import JSON File' }, { label: 'Import Excel File' } ] },
+                { label: 'Export', submenu: [ { label: 'Export as JSON File' }, { label: 'Export as Excel File' } ] },
             ]
+        },
+        {
+            label: 'About'
         }
     ];
 

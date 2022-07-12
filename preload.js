@@ -1,6 +1,9 @@
+// Electron Custom Titlebar
 const { Titlebar, Color } = require('custom-electron-titlebar');
-const package = require('./package.json');
+// App Version Information
+const appVersion = require('./package.json').version;
 
+// HTML File has been Loaded
 window.addEventListener('DOMContentLoaded', () => {
     // Title bar implemenation
     let titlebar = new Titlebar({
@@ -8,5 +11,5 @@ window.addEventListener('DOMContentLoaded', () => {
         backgroundColor: Color.fromHex('#1e2124')
     });
 
-    titlebar.updateTitle(`GEOEXIF ${package.version}`);
+    titlebar.updateTitle(`GEOEXIF ${appVersion}`);
 });

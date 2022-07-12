@@ -5,9 +5,9 @@
   "main": "app.js",
   "scripts": {
     "dev": "electron .",
-    "build": "electron-builder build --win --publish never",
-    "test": "electron-builder build --dir --win --publish never",
-    "deploy": "electron-builder build --win --publish always",
+    "clean": "modclean",
+    "build": "modclean && electron-builder build --win --publish never",
+    "deploy": "modclean && electron-builder build --win --publish always",
     "sass-build": "node-sass --omit-source-map-url styledefs.scss src/styles/bulma.css"
   },
   "repository": {
@@ -20,6 +20,7 @@
     "bulma": "^0.9.4",
     "electron": "^19.0.3",
     "electron-builder": "^23.0.3",
+    "modclean": "^3.0.0-beta.1",
     "node-sass": "^7.0.1"
   },
   "dependencies": {
@@ -27,13 +28,21 @@
     "electron-updater": "^5.0.1"
   },
   "build": {
-    "productName": "GeoEXIF",
+    "productName": "GEOEXIF",
     "compression": "maximum",
     "win": {
       "publish": [
         "github"
       ],
       "publisherName": "Ignas Augustinavicius"
+    },
+    "nsis": {
+      "oneClick": "false",
+      "allowToChangeInstallationDirectory": "true"
+    },
+    "directories": {
+      "buildResources": "buildResources",
+      "output": "release"
     }
   }
 }
