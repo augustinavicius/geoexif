@@ -13,6 +13,6 @@
 
 #map {
   width: auto;
-  height: 600px;
+  height: calc(100vh - 30px);
   z-index: 1;
 }
