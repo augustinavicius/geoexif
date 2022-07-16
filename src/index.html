@@ -1,15 +1,30 @@
 <!DOCTYPE html>
 
 <head>
+    <!--GEOEXIF (app version number)-->
     <title id="title"></title>
+    <!--Script Execution Policy-->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self';">
+    <!--App Icon-->
     <link rel="icon" type="image/x-icon" href="./images/icon.ico">
+    <!--Custom CSS-->
     <link rel="stylesheet" href="./styles/custom.css">
+    <!--Bulma CSS-->
     <link rel="stylesheet" href="./styles/bulma.css">
+    <!--Leaflet CSS-->
+    <link rel="stylesheet" href="./styles/leaflet.css" />
+    <!--Renderer JS-->
     <script src="./scripts/renderer.js"></script>
 </head>
 
 <body>
     <!--Auto Update Status Footer-->
-    <div id="footer" class="ml-2">TEST</div>
+    <div id="footer" class="ml-2"></div>
+    <!--Main Menu View-->
+    <div class="columns is-gapless">
+        <!--Photo List-->
+        <div class="column is-one-quarter"></div>
+        <!--Map View-->
+        <div class="column" id="map"></div>
+    </div>
 </body>

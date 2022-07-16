@@ -4,8 +4,15 @@
   left: 0;
   width: 100%;
   height: 30px;
+  z-index: 2;
 }
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+#map {
+  width: auto;
+  height: 600px;
+  z-index: 1;
 }

@@ -25,7 +25,8 @@
   },
   "dependencies": {
     "custom-electron-titlebar": "^4.1.0",
-    "electron-updater": "^5.0.1"
+    "electron-updater": "^5.0.1",
+    "leaflet": "^1.8.0"
   },
   "build": {
     "productName": "GEOEXIF",
