@@ -13,7 +13,8 @@ ipcRenderer.on('updatestatus', (event, text) => {
 document.addEventListener('DOMContentLoaded', (event) => {
     // Initialize the map
     var map = L.map('map', {
-        scrollWheelZoom: false
+        scrollWheelZoom: false,
+        attributionControl: false
     });
 
     // Set the position and zoom level of the map
@@ -21,28 +22,40 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Initialize the base layer
     // OpenStreet View
-    leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    var openStreet = leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; OSM Mapnik <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
     // Google Streets
-    leaflet.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+    var googleStreet = leaflet.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
         maxZoom: 20,
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     });
     // Google Terrain
-    leaflet.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+    var googleTerrain = leaflet.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
         maxZoom: 20,
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     });
     // Google Hybrid
-    leaflet.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+    var googleHybrid = leaflet.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
         maxZoom: 20,
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     });
     // Google Sattelite
-    leaflet.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+    var googleSattelite = leaflet.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
         maxZoom: 20,
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     });
+
+    // View Layers
+    var layers = {
+        "OpenStreet Map": openStreet,
+        "Google Streets": googleStreet,
+        "Google Terrain": googleTerrain,
+        "Google Hybrid": googleHybrid,
+        "Google Sattelite": googleSattelite
+    }
+
+    var layerControl = new leaflet.Control.Layers(layers);
+    map.addControl(layerControl);
 });

@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-// Imports
+// Imports - Bulma
 @import "./node_modules/bulma/sass/base/_all.sass";
 @import "./node_modules/bulma/sass/components/_all.sass";
 @import "./node_modules/bulma/sass/elements/_all.sass";
@@ -9,3 +9,6 @@
 @import "./node_modules/bulma/sass/helpers/_all.sass";
 @import "./node_modules/bulma/sass/layout/_all.sass";
 @import "./node_modules/bulma/sass/utilities/_all.sass";
+
+// Imports - Bulma Extensions
+@import "./node_modules/bulma-list/sass/bulma-list.sass";
