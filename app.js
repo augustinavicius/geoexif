@@ -1,6 +1,6 @@
 // Libraries
 // Electron
-const { app, BrowserWindow, Menu, webContents } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 // Electron Updater
 const { autoUpdater } = require('electron-updater');
 // Electron Custom Titlebar
@@ -8,7 +8,7 @@ const { setupTitlebar, attachTitlebarToWindow } = require('custom-electron-title
 // Path
 const path = require("path");
 
-// Main Window
+// Main Windowcc
 let mainWindow;
 
 // Title Bar
@@ -52,7 +52,6 @@ const createWindow = () => {
         icon: __dirname + '/src/images/icon.ico',
         show: false,
         webPreferences: {
-            enableBlinkFeatures: 'Touch',
             nodeIntegration: true,
             contextIsolation: false,
             preload: path.join(__dirname, 'preload.js')

@@ -2,6 +2,8 @@
 const { ipcRenderer, webFrame } = require('electron');
 // Leaflet
 const leaflet = require('leaflet');
+// Leaflet ZoomBox
+const zoombox = require('leaflet-zoombox');
 require('leaflet.tilelayer.nogap'); // Map white grid fix
 
 // Update Status Event 
@@ -22,11 +24,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // Set the position and zoom level of the map
     map.setView([47.70, 13.35], 7);
 
-    // Initialize the base layer
+    // Layers
     // OpenStreet View
     var openStreet = leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: '&copy; OSM Mapnik <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
     // Google Streets
     var googleStreet = leaflet.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
@@ -49,7 +50,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     });
 
-    // View Layers
+    // Layer Object
     var layers = {
         "OpenStreet Map": openStreet,
         "Google Streets": googleStreet,
@@ -58,6 +59,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
         "Google Sattelite": googleSattelite
     }
 
-    var layerControl = new leaflet.Control.Layers(layers);
+    // Overlays
+    // OpenStreet View (GPS Traces)
+    var openStreetGPS = leaflet.tileLayer('http://gps-{s}.tile.openstreetmap.org/lines/{z}/{x}/{y}.png', {
+        maxZoom: 19
+    });
+
+    // Overlay Object
+    var overlays = {
+        "GPS Traces": openStreetGPS
+    }
+
+    // Add Layer & Overlay Control
+    var layerControl = new leaflet.Control.Layers(layers, overlays);
     map.addControl(layerControl);
+
+    // Zoom Box
+    var zoomboxControl = leaflet.Control.ZoomBox({ modal: true, title: 'Box area zoom' });
+    map.addControl(zoomboxControl);
 });

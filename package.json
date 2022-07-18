@@ -29,6 +29,7 @@
     "custom-electron-titlebar": "^4.1.0",
     "electron-updater": "^5.0.1",
     "leaflet": "^1.8.0",
+    "leaflet-zoombox": "^0.5.2",
     "leaflet.tilelayer.nogap": "^0.3.0"
   },
   "build": {
