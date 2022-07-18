@@ -8,7 +8,7 @@
     "clean": "modclean",
     "build": "modclean && electron-builder build --win --publish never",
     "deploy": "modclean && electron-builder build --win --publish always",
-    "sass-build": "node-sass --omit-source-map-url styledefs.scss src/styles/bulma.css"
+    "sass-build": "node-sass --omit-source-map-url styledefs.scss src/styles/sass.css"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   "author": "Ignas Augustinavičius",
   "license": "UNLICENSED",
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^6.1.1",
     "bulma": "^0.9.4",
     "bulma-list": "^1.2.0",
     "electron": "^19.0.3",
@@ -27,7 +28,8 @@
   "dependencies": {
     "custom-electron-titlebar": "^4.1.0",
     "electron-updater": "^5.0.1",
-    "leaflet": "^1.8.0"
+    "leaflet": "^1.8.0",
+    "leaflet.tilelayer.nogap": "^0.3.0"
   },
   "build": {
     "productName": "GEOEXIF",

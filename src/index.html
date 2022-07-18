@@ -1,43 +1,223 @@
 <!DOCTYPE html>
 
 <head>
-    <!--GEOEXIF (app version number)-->
-    <title id="title"></title>
+    <!--GEOEXIF Title-->
+    <title>GEOEXIF</title>
     <!--Script Execution Policy-->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self';">
     <!--App Icon-->
     <link rel="icon" type="image/x-icon" href="./images/icon.ico">
     <!--Custom CSS-->
     <link rel="stylesheet" href="./styles/custom.css">
-    <!--Bulma CSS-->
-    <link rel="stylesheet" href="./styles/bulma.css">
+    <!--SASS CSS-->
+    <link rel="stylesheet" href="./styles/sass.css">
     <!--Leaflet CSS-->
     <link rel="stylesheet" href="./styles/leaflet.css" />
-    <!--Font Awesome Icons CSS-->
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <!--Renderer JS-->
     <script src="./scripts/renderer.js"></script>
 </head>
 
 <body>
-    <!--Auto Update Status Footer-->
-    <div id="footer" class="ml-2"></div>
     <!--Main Menu View-->
     <div class="columns is-gapless">
         <!--Photo List-->
         <div class="column is-one-third">
-            <div class="list has-overflow-ellipsis has-visible-pointer-controls">
+            <div class="list has-overflow-ellipsis has-visible-pointer-controls" id="photoColumn">
                 <div class="list-item">
                     <div class="list-item-content">
-                        <div class="list-item-title">Photo name</div>
-                        <!--Cia daryti masyva-->
-                        <div class="list-item-description">Photo location</div>
+                        <div class="list-item-title">Photo name </div>
+                        <!--Photo Path Array Here-->
+                        <div class="list-item-description">Photo location </div>
                     </div>
                     <div class="list-item-controls">
                         <div class="buttons is-right">
                             <button class="button">
                                 <span class="icon is-small">
-                                    <i class="fas fa-edit"></i>
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </span>
+                                <span onclick="openImage(imageId)">Open</span>
+                            </button>
+
+                            <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <div class="list-item-content">
+                        <div class="list-item-title">Photo name </div>
+                        <!--Photo Path Array Here-->
+                        <div class="list-item-description">Photo location </div>
+                    </div>
+                    <div class="list-item-controls">
+                        <div class="buttons is-right">
+                            <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </span>
+                                <span onclick="openImage(imageId)">Open</span>
+                            </button>
+
+                            <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <div class="list-item-content">
+                        <div class="list-item-title">Photo name </div>
+                        <!--Photo Path Array Here-->
+                        <div class="list-item-description">Photo location </div>
+                    </div>
+                    <div class="list-item-controls">
+                        <div class="buttons is-right">
+                            <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </span>
+                                <span onclick="openImage(imageId)">Open</span>
+                            </button>
+
+                            <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <div class="list-item-content">
+                        <div class="list-item-title">Photo name </div>
+                        <!--Photo Path Array Here-->
+                        <div class="list-item-description">Photo location </div>
+                    </div>
+                    <div class="list-item-controls">
+                        <div class="buttons is-right">
+                            <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </span>
+                                <span onclick="openImage(imageId)">Open</span>
+                            </button>
+
+                            <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <div class="list-item-content">
+                        <div class="list-item-title">Photo name </div>
+                        <!--Photo Path Array Here-->
+                        <div class="list-item-description">Photo location </div>
+                    </div>
+                    <div class="list-item-controls">
+                        <div class="buttons is-right">
+                            <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </span>
+                                <span onclick="openImage(imageId)">Open</span>
+                            </button>
+
+                            <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <div class="list-item-content">
+                        <div class="list-item-title">Photo name </div>
+                        <!--Photo Path Array Here-->
+                        <div class="list-item-description">Photo location </div>
+                    </div>
+                    <div class="list-item-controls">
+                        <div class="buttons is-right">
+                            <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </span>
+                                <span onclick="openImage(imageId)">Open</span>
+                            </button>
+
+                            <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <div class="list-item-content">
+                        <div class="list-item-title">Photo name </div>
+                        <!--Photo Path Array Here-->
+                        <div class="list-item-description">Photo location </div>
+                    </div>
+                    <div class="list-item-controls">
+                        <div class="buttons is-right">
+                            <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </span>
+                                <span onclick="openImage(imageId)">Open</span>
+                            </button>
+
+                            <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <div class="list-item-content">
+                        <div class="list-item-title">Photo name </div>
+                        <!--Photo Path Array Here-->
+                        <div class="list-item-description">Photo location </div>
+                    </div>
+                    <div class="list-item-controls">
+                        <div class="buttons is-right">
+                            <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </span>
+                                <span onclick="openImage(imageId)">Open</span>
+                            </button>
+
+                            <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <div class="list-item-content">
+                        <div class="list-item-title">Photo name </div>
+                        <!--Photo Path Array Here-->
+                        <div class="list-item-description">Photo location </div>
+                    </div>
+                    <div class="list-item-controls">
+                        <div class="buttons is-right">
+                            <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                 </span>
                                 <span onclick="openImage(imageId)">Open</span>
                             </button>
@@ -54,5 +234,12 @@
         </div>
         <!--Map View-->
         <div class="column" id="map"></div>
+    </div>
+    <!--AutoUpdate Footer Status Bar-->
+    <div id="footer">
+        <div class="content pl-1 pr-1 has-text-white is-size-7">
+            <span style="float:left;" id="footerUpdateText"></span>
+            <span style="float:right;" id="bottomRightStatusBar"></span>
+        </div>
     </div>
 </body>

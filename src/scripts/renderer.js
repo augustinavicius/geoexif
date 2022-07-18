@@ -1,12 +1,13 @@
 // IPC Renderer
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, webFrame } = require('electron');
 // Leaflet
 const leaflet = require('leaflet');
+require('leaflet.tilelayer.nogap'); // Map white grid fix
 
 // Update Status Event 
 // Changes the text on the footer div to show the current app update progress.
 ipcRenderer.on('updatestatus', (event, text) => {
-    document.getElementById('footer').innerHTML = text;
+    document.getElementById('footerUpdateText').innerHTML = text;
 });
 
 // Map Initialization
@@ -14,7 +15,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // Initialize the map
     var map = L.map('map', {
         scrollWheelZoom: false,
-        attributionControl: false
+        attributionControl: false,
+        touchZoom: true
     });
 
     // Set the position and zoom level of the map

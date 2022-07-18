@@ -6,10 +6,12 @@ const appVersion = require('./package.json').version;
 // HTML File has been Loaded
 window.addEventListener('DOMContentLoaded', () => {
     // Title bar implemenation
-    let titlebar = new Titlebar({
+    new Titlebar({
         iconSize: 20,
         backgroundColor: Color.fromHex('#1e2124')
     });
 
-    titlebar.updateTitle(`GEOEXIF ${appVersion}`);
+    // Bottom Left Status Bar
+    var statusBar = document.getElementById('bottomRightStatusBar');
+    statusBar.innerHTML = `Made with ❤️ from Lithuania | GEOEXIF ${appVersion}`;
 });
