@@ -78,3 +78,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
     var zoomboxControl = leaflet.Control.ZoomBox({ modal: true, title: 'Box area zoom' });
     map.addControl(zoomboxControl);
 });
+function selectImage(path) {
+    highlightImage(path);
+}
+
+function openImage(path) {
+    var imageListItem;
+}
+
+function highlightImage(path) {
+    var imageName = document.getElementById(path);
+    var imageNameText = imageName.innerHTML;
+    var newImageNameText = 'An error has occured'; // If the checks below somewhow fail, image name should be overwritten to indicate an error
+
+    if (imageNameText.includes('✅')) {
+        newImageNameText = imageNameText.replace('✅', '');
+    } else {
+        newImageNameText = `✅ ${imageNameText}`;
+    }
+
+    imageName.innerHTML = newImageNameText;
+}
