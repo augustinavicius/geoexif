@@ -1,0 +1,61 @@
+{
+  "name": "geoexif",
+  "version": "0.0.10",
+  "description": "Fast GPS EXIF data viewer with simple features.",
+  "main": "app.js",
+  "scripts": {
+    "dev": "electron .",
+    "clean-modules": "modclean -r",
+    "build-app": "modclean -r && electron-builder build --win --publish never",
+    "deploy-app": "modclean -r && electron-builder build --win --publish always",
+    "build-sass": "node-sass --omit-source-map-url styledefs.scss src/styles/sass.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/augustinavicius/geoexif"
+  },
+  "keywords": [],
+  "author": "augustinavicius",
+  "license": "MIT",
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^6.2.1",
+    "bulma": "^0.9.4",
+    "bulma-list": "^1.2.0",
+    "electron": "^22.0.0",
+    "electron-builder": "^23.6.0",
+    "modclean": "^3.0.0-beta.1",
+    "node-sass": "^8.0.0"
+  },
+  "dependencies": {
+    "@electron/remote": "^2.0.9",
+    "custom-electron-titlebar": "^4.1.5",
+    "dms-to-decimal": "^0.0.6",
+    "dotenv": "^16.0.3",
+    "electron-updater": "^5.3.0",
+    "fast-exif": "^1.0.1",
+    "haversine-distance": "^1.2.1",
+    "leaflet": "^1.9.3",
+    "leaflet-edgebuffer": "^1.0.6",
+    "leaflet-zoombox": "^0.5.2",
+    "leaflet.tilelayer.nogap": "^0.3.0",
+    "simplebar": "^5.3.9",
+    "xlsx": "^0.18.5"
+  },
+  "build": {
+    "productName": "GEOEXIF",
+    "compression": "maximum",
+    "win": {
+      "publish": [
+        "github"
+      ]
+    },
+    "nsis": {
+      "oneClick": "false",
+      "allowToChangeInstallationDirectory": "true"
+    },
+    "directories": {
+      "buildResources": "buildResources",
+      "output": "release"
+    }
+  }
+}
