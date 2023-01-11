@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!--Header-->
+
+<head>
+    <!--GEOEXIF Title-->
+    <title>GEOEXIF</title>
+    <!--App Icon-->
+    <link rel="icon" type="image/x-icon" href="./images/icon.ico">
+    <!--Custom CSS-->
+    <link rel="stylesheet" href="./styles/custom.css">
+    <!--SASS CSS-->
+    <link rel="stylesheet" href="./styles/sass.css">
+    <!--Leaflet CSS-->
+    <link rel="stylesheet" href="./styles/leaflet.css">
+    <!--Leaflet ZoomBox CSS-->
+    <link rel="stylesheet" href="./styles/leaflet-zoombox.css">
+    <!--Renderer JS-->
+    <script>const renderer = require('./scripts/renderer.js')</script>
+</head>
+<!--Body-->
+
+<body>
+    <!--Modals-->
+    <!--Add Image Modal-->
+    <div class="modal" id="addImageModal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="field has-addons has-addons-right">
+                <p class="control is-expanded">
+                    <span class="select is-fullwidth">
+                        <select id="addImageScanType">
+                            <option value="images">Images</option>
+                            <option value="folders">Folders (NOT IMPLEMENTED)</option>
+                            <option value="foldersandsubfolders">Folders & Subfolders (NOT IMPLMENTED)</option>
+                        </select>
+                    </span>
+                </p>
+                <p class="control">
+                    <a class="button is-primary" onclick="renderer.openDialog()">
+                        Browse
+                    </a>
+                </p>
+            </div>
+            <div class="has-text-white" id="progressBarStatus">Standby</div>
+            <progress class="progress is-primary" value="100" max="100" id="progressBar"></progress>
+        </div>
+        <button class="modal-close is-large" aria-label="close" onclick="renderer.closeAddImageModal()"></button>
+    </div>
+    <!--Image Options Modal-->
+    <div class="modal" id="imageOptionsModal">
+        <div class="modal-background"></div>
+        <div class="modal-content" id="imageOptionsModalContent">
+
+        </div>
+        <button class="modal-close is-large" aria-label="close" onclick="renderer.closeImageOptionsModal()"></button>
+    </div>
+
+    <!--Main View-->
+    <div id="mainView">
+        <!--Navigation Bar-->
+        <div id="navbar" style="resize: horizontal;">
+            <!--Photo List Header-->
+            <div id="imageListHeader">
+                <span style="float:left;" class="ml-1 mt-1">
+                    <button class="button is-small is-rounded" onclick="renderer.selectAllImages()">
+                        Select All
+                    </button>
+                    <button class="button is-small is-rounded" onclick="renderer.inverseImageSelection()">
+                        Inverse Selection
+                    </button>
+                </span>
+                <span style="float:right;" class="mr-1 mt-1">
+                    <button class="button is-primary is-small is-rounded is-inverted"
+                        onclick="renderer.openAddImageModal()">
+                        <span class="icon is-small">
+                            <i class="fa-solid fa-plus"></i>
+                        </span>
+                    </button>
+                    <button class="button is-danger is-small is-rounded is-inverted" onclick="renderer.removeImage()">
+                        <span class="icon is-small">
+                            <i class="fa-solid fa-minus"></i>
+                        </span>
+                    </button>
+                </span>
+            </div>
+
+            <!--Photo List-->
+            <div class="list has-overflow-ellipsis" id="imageList">
+            </div>
+            <!--Navigation Bar Control-->
+            <button class="button is-small is-rounded m-2" onclick="renderer.navBarControl()" id="navbarControl">
+                <span class="icon is-small">
+                    <i class="fa-solid fa-chevron-left" id="navbarControlIcon"></i>
+                </span>
+            </button>
+        </div>
+        <!--Map View-->
+        <div id="mapView">
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <!--AutoUpdate Footer Status Bar-->
+    <div id="footer">
+        <div class="content pl-1 pr-1 has-text-white is-size-7">
+            <span style="float:left;" id="footerUpdateText"></span>
+            <span style="float:right;" id="bottomRightStatusBar"></span>
+        </div>
+    </div>
+</body>
