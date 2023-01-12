@@ -1,6 +1,6 @@
 {
   "name": "geoexif",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Fast GPS EXIF data viewer with simple features.",
   "main": "app.js",
   "scripts": {
