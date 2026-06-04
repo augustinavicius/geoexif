@@ -7,8 +7,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     readExif:       (imagePath)   => ipcRenderer.invoke('exif:read', imagePath),
     openPath:       (filePath)    => ipcRenderer.invoke('shell:openPath', filePath),
     saveExcel:      (imageData)   => ipcRenderer.invoke('excel:save', imageData),
-    onUpdateStatus: (callback)    => { ipcRenderer.on('updateStatus', (_e, text) => callback(text)) },
-    onExportExcel:  (callback)    => { ipcRenderer.on('menuItemExportExcel', () => callback()) },
+    onUpdateStatus:  (callback) => { ipcRenderer.on('updateStatus', (_e, text) => callback(text)) },
+    onExportExcel:   (callback) => { ipcRenderer.on('menuItemExportExcel', () => callback()) },
+    onImportImages:  (callback) => { ipcRenderer.on('menuItemImportImages', () => callback()) },
 });
 
 createTitlebarOnDOMContentLoaded({

@@ -8,10 +8,13 @@ body::-webkit-scrollbar {
 
 #navbar {
     position: absolute;
+    left: 0;
     width: calc(1/3 * 100vw);
-    height: calc(100vh - 85px);
+    height: calc(100vh - 55px);
     transition: left .5s;
     z-index: 2;
+    display: flex;
+    flex-direction: column;
 }
 
 #navbarControl {
@@ -23,15 +26,20 @@ body::-webkit-scrollbar {
 }
 
 #imageListHeader {
-    position: sticky;
-    width: inherit;
+    flex-shrink: 0;
     height: 40px;
     background-color: #1e2124;
 }
 
+#importProgress {
+    flex-shrink: 0;
+    padding: 6px 8px 4px;
+    background-color: #1e2124;
+}
+
 #imageList {
-    height: calc(100vh - 95px);
-    width: inherit;
+    flex: 1;
+    min-height: 0;
     background-color: #F5F5F5;
     overflow-y: scroll;
 }

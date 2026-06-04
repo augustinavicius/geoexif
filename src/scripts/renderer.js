@@ -96,17 +96,36 @@ window.addEventListener('resize', () => {
     resizeTimer = setTimeout(() => document.body.classList.remove('resize-animation-stopper'), 400);
 });
 
-// ---- Modals ----
+// ---- Import ----
 
-function openAddImageModal() {
-    document.getElementById('addImageModal').classList.add('is-active');
-}
+let importing = false;
 
-function closeAddImageModal() {
-    if (document.getElementById('progressBarStatus').innerHTML === 'Standby') {
-        document.getElementById('addImageModal').classList.remove('is-active');
+window.electronAPI.onImportImages(async () => {
+    if (importing) return;
+    importing = true;
+
+    const paths = await window.electronAPI.openImages();
+    if (!paths || paths.length === 0) { importing = false; return; }
+
+    const progressEl  = document.getElementById('importProgress');
+    const progressBar = document.getElementById('importProgressBar');
+    const progressTxt = document.getElementById('importProgressText');
+
+    progressBar.max = paths.length;
+    progressBar.value = 0;
+    progressEl.classList.remove('is-hidden');
+
+    for (const imagePath of paths) {
+        progressTxt.textContent = `Importing ${progressBar.value + 1} of ${paths.length}…`;
+        await processPath(imagePath);
+        progressBar.value += 1;
     }
-}
+
+    progressEl.classList.add('is-hidden');
+    importing = false;
+});
+
+// ---- Modals ----
 
 function openImageOptionsModal(imagePath) {
     const esc = escapePath(imagePath);
@@ -205,30 +224,6 @@ async function processPath(imagePath) {
         </div>`;
 }
 
-async function openDialog() {
-    if (document.getElementById('progressBarStatus').innerHTML !== 'Standby') return;
-
-    const paths = await window.electronAPI.openImages();
-    if (!paths || paths.length === 0) return;
-
-    const progressBar = document.getElementById('progressBar');
-    const progressBarStatus = document.getElementById('progressBarStatus');
-
-    progressBarStatus.innerHTML = 'Loading...';
-    progressBar.classList.replace('is-primary', 'is-warning');
-    progressBar.max = paths.length;
-    progressBar.value = 0;
-
-    for (const imagePath of paths) {
-        await processPath(imagePath);
-        progressBar.value += 1;
-    }
-
-    progressBar.classList.replace('is-warning', 'is-primary');
-    progressBarStatus.innerHTML = 'Standby';
-    document.getElementById('addImageModal').classList.remove('is-active');
-}
-
 // ---- Selection ----
 
 function selectImage(imagePath) {
@@ -317,9 +312,6 @@ function navBarControl() {
 // ---- Public API (for HTML onclick handlers) ----
 
 window.renderer = {
-    openDialog,
-    openAddImageModal,
-    closeAddImageModal,
     openImageOptionsModal,
     closeImageOptionsModal,
     closeImageOptionsErrorBox,

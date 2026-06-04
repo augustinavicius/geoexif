@@ -36,10 +36,21 @@ app.on('ready', () => {
             label: 'File',
             submenu: [
                 {
+                    label: 'Import',
+                    submenu: [
+                        {
+                            label: 'Import Images',
+                            accelerator: 'CmdOrCtrl+O',
+                            click: () => { mainWindow.webContents.send('menuItemImportImages') }
+                        }
+                    ]
+                },
+                {
                     label: 'Export',
                     submenu: [
                         {
                             label: 'Export Excel',
+                            accelerator: 'CmdOrCtrl+E',
                             click: () => { mainWindow.webContents.send('menuItemExportExcel') }
                         }
                     ]
