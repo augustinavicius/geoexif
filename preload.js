@@ -1,17 +1,22 @@
-// Electron Custom Titlebar
-const { Titlebar, Color } = require('custom-electron-titlebar');
-// App Version Information
+const { contextBridge, ipcRenderer } = require('electron');
+const { createTitlebarOnDOMContentLoaded, TitlebarColor } = require('custom-electron-titlebar');
 const appVersion = require('./package.json').version;
 
-// HTML File has been Loaded
-window.addEventListener('DOMContentLoaded', () => {
-    // Title bar implemenation
-    new Titlebar({
-        iconSize: 20,
-        backgroundColor: Color.fromHex('#1e2124')
-    });
+contextBridge.exposeInMainWorld('electronAPI', {
+    openImages:     ()            => ipcRenderer.invoke('dialog:openImages'),
+    readExif:       (imagePath)   => ipcRenderer.invoke('exif:read', imagePath),
+    openPath:       (filePath)    => ipcRenderer.invoke('shell:openPath', filePath),
+    saveExcel:      (imageData)   => ipcRenderer.invoke('excel:save', imageData),
+    onUpdateStatus: (callback)    => { ipcRenderer.on('updateStatus', (_e, text) => callback(text)) },
+    onExportExcel:  (callback)    => { ipcRenderer.on('menuItemExportExcel', () => callback()) },
+});
 
-    // Bottom Left Status Bar
-    var statusBar = document.getElementById('bottomRightStatusBar');
-    statusBar.innerHTML = `Made with ❤️ from Lithuania | GEOEXIF ${appVersion}`;
+createTitlebarOnDOMContentLoaded({
+    iconSize: 20,
+    backgroundColor: TitlebarColor.fromHex('#1e2124')
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+    const statusBar = document.getElementById('bottomRightStatusBar');
+    if (statusBar) statusBar.innerHTML = `Made with ❤️ from Lithuania | GEOEXIF ${appVersion}`;
 });

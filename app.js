@@ -1,138 +1,130 @@
-// Electron
-const { app, BrowserWindow, Menu } = require('electron');
-// Electron Remote
-const remote = require('@electron/remote/main');
-remote.initialize();
-// Electron Updater
+const { app, BrowserWindow, Menu, shell, ipcMain, dialog } = require('electron');
 const { autoUpdater } = require('electron-updater');
-// Electron Custom Titlebar
 const { setupTitlebar, attachTitlebarToWindow } = require('custom-electron-titlebar/main');
-// ENV
-require('dotenv').config();
-// File Paths
 const path = require('path');
+const EXIF = require('fast-exif');
+const xlsx = require('xlsx');
 
-// Main Window
-var window;
-// Custom Titlebar Setup
+require('dotenv').config();
 setupTitlebar();
 
-// App Loaded
+let mainWindow;
+
 app.on('ready', () => {
-    // Window
-    window = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: 900,
         minWidth: 900,
         height: 600,
         minHeight: 600,
-        frame: false, // False because a custom titlebar (frame) will be used
-        icon: __dirname + '/src/images/icon.ico',
-        show: false, // Do not show before fully loaded
+        frame: false,
+        icon: path.join(__dirname, 'src/images/icon.ico'),
+        show: false,
         webPreferences: {
-            nodeIntegration: true, // Required for node modules to work
-            contextIsolation: false, // Remove security policy of script isolation, since it makes work easier and there is no need for advanced security in this app
-            preload: path.join(__dirname, 'preload.js') // Used for titlebar and update status bar communication
+            nodeIntegration: false,
+            contextIsolation: true,
+            sandbox: false, // required for custom-electron-titlebar in preload
+            preload: path.join(__dirname, 'preload.js')
         }
     });
-    // Developer Tools (open developer tools on startup, if .env is configured to do so)
-    if (process.env.DEV == 'true') window.webContents.openDevTools();
 
-    // Attach index.html File to the window
-    window.loadFile('./src/index.html');
+    if (process.env.DEV === 'true') mainWindow.webContents.openDevTools();
 
-    // Remote used for save/open dialogs on Windows machines
-    remote.enable(window.webContents);
+    mainWindow.loadFile('./src/index.html');
 
-    // Custom Titlebar Menu Template (save & open items)
     const menuTemplate = [
         {
             label: 'File',
             submenu: [
                 {
-                    label: 'Import',
-                    submenu: [
-                        {
-                            label: 'Import JSON (NOT IMPLEMENTED)',
-                            click: () => { window.webContents.send('menuItemImportJSON') }
-                        },
-                        {
-                            label: 'Import Excel (NOT IMPLEMENTED)',
-                            click: () => { window.webContents.send('menuItemImportExcel') }
-                        },
-                    ]
-                },
-                {
                     label: 'Export',
                     submenu: [
                         {
-                            label: 'Export JSON (NOT IMPLEMENTED)',
-                            click: () => { window.webContents.send('menuItemExportJSON') }
-                        },
-                        {
                             label: 'Export Excel',
-                            click: () => { window.webContents.send('menuItemExportExcel') }
-                        },
+                            click: () => { mainWindow.webContents.send('menuItemExportExcel') }
+                        }
                     ]
                 }
             ]
         },
         {
             label: 'About',
-            click: async () => {
-                const { shell } = require('electron');
-                await shell.openExternal('https://github.com/augustinavicius/geoexif');
-            }
+            click: async () => { await shell.openExternal('https://github.com/augustinavicius/geoexif') }
         }
-    ]
+    ];
 
-    // Build menu from template
     const menu = Menu.buildFromTemplate(menuTemplate);
-
-    // Load menu
     Menu.setApplicationMenu(menu);
 
-    // Custom Titlebar
-    attachTitlebarToWindow(window);
+    attachTitlebarToWindow(mainWindow);
 
-    // Finish Window Load
-    window.webContents.on('did-finish-load', () => {
-        // Finally show the window
-        window.show();
-
-        // Immediately check for updates & provide status (events)
+    mainWindow.webContents.on('did-finish-load', () => {
+        mainWindow.show();
         autoUpdater.checkForUpdatesAndNotify();
     });
 });
 
-// App Closed
 app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit(); // Proper app close
+    if (process.platform !== 'darwin') app.quit();
 });
 
-// App Updater Communications with renderer process
+// ---- IPC Handlers ----
+
+ipcMain.handle('dialog:openImages', async () => {
+    const result = await dialog.showOpenDialog(mainWindow, {
+        properties: ['openFile', 'multiSelections'],
+        filters: [{ name: 'Images', extensions: ['jpg', 'png', 'jpeg'] }]
+    });
+    return result.canceled ? [] : result.filePaths;
+});
+
+ipcMain.handle('exif:read', async (_event, imagePath) => {
+    try {
+        const data = await EXIF.read(imagePath);
+        return { success: true, data, basename: path.basename(imagePath) };
+    } catch (error) {
+        return { success: false, error: error.message, basename: path.basename(imagePath) };
+    }
+});
+
+ipcMain.handle('shell:openPath', async (_event, filePath) => {
+    await shell.openPath(filePath);
+});
+
+ipcMain.handle('excel:save', async (_event, imageData) => {
+    const { filePath, canceled } = await dialog.showSaveDialog(mainWindow, {
+        filters: [{ name: 'Excel file', extensions: ['xlsx'] }]
+    });
+    if (canceled || !filePath) return;
+
+    const rows = imageData.map(img => ({
+        Name: img.name,
+        Path: img.path,
+        EXIF: img.exif,
+        GPS: img.gps,
+        Latitude: img.latitude,
+        Longitude: img.longitude
+    }));
+
+    const workbook = xlsx.utils.book_new();
+    const worksheet = xlsx.utils.json_to_sheet(rows);
+    for (let i = 0; i < imageData.length; i++) {
+        worksheet[`A${i + 2}`].l = { Target: `file://${imageData[i].path}` };
+    }
+    xlsx.utils.book_append_sheet(workbook, worksheet, 'data');
+    xlsx.writeFile(workbook, filePath);
+});
+
+// ---- Auto Updater ----
+
 function sendStatusToWindow(text) {
-    window.webContents.send('updateStatus', text);
+    mainWindow.webContents.send('updateStatus', text);
 }
 
-// App Updater Notifcations
-autoUpdater.on('checking-for-update', () => {
-    sendStatusToWindow('Checking for an update...');
-})
-autoUpdater.on('update-available', () => {
-    sendStatusToWindow('Update found.');
-})
-autoUpdater.on('update-not-available', () => {
-    sendStatusToWindow('Update not found.');
-})
-autoUpdater.on('error', (err) => {
-    sendStatusToWindow('An error has occured: ' + err);
-})
-autoUpdater.on('download-progress', (progressObj) => {
-    let log_message = "Download speed: " + progressObj.bytesPerSecond;
-    log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
-    log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-    sendStatusToWindow(log_message);
-})
-autoUpdater.on('update-downloaded', () => {
-    sendStatusToWindow('Update downloaded');
+autoUpdater.on('checking-for-update', () => { sendStatusToWindow('Checking for an update...') });
+autoUpdater.on('update-available', () => { sendStatusToWindow('Update found.') });
+autoUpdater.on('update-not-available', () => { sendStatusToWindow('Update not found.') });
+autoUpdater.on('error', err => { sendStatusToWindow(`An error has occurred: ${err}`) });
+autoUpdater.on('download-progress', p => {
+    sendStatusToWindow(`Download speed: ${p.bytesPerSecond} - Downloaded ${p.percent}% (${p.transferred}/${p.total})`);
 });
+autoUpdater.on('update-downloaded', () => { sendStatusToWindow('Update downloaded') });
